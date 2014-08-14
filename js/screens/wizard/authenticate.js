@@ -11,7 +11,6 @@
       return;
     }
     Controller.authenticate(id);
-    _teardown();
   }
 
   function _onFxaButtonClick() {
@@ -20,11 +19,6 @@
 
   function _onMobileIdButtonClick() {
     _onButtonClick('msisdn');
-  }
-
-  function _teardown() {
-    _fxaButton.removeEventListener('click', _onFxaButtonClick);
-    _mobileIdButton.removeEventListener('click', _onMobileIdButtonClick);
   }
 
   var Authenticate = {
@@ -36,7 +30,6 @@
       if (!_mobileIdButton) {
         _mobileIdButton = document.getElementById('authenticate-msisdn-button');
       }
-
       _fxaButton.addEventListener('click', _onFxaButtonClick);
       _mobileIdButton.addEventListener('click', _onMobileIdButtonClick);
     }

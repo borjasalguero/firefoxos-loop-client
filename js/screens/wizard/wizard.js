@@ -14,17 +14,17 @@
 
   var Wizard = {
     init: function w_init(isFirstUse) {
-
+      
       document.body.dataset.layout = 'wizard';
 
       wizardPanel = document.getElementById('wizard-panel');
       wizardLogin = document.getElementById('wizard-login');
 
+      Tutorial.init();
+      Authenticate.init();
+      
       // If  we have alreday seen the FTU we will go to step 2
       if (!isFirstUse) {
-        // If tutorial is done, let's authenticate!
-        Authenticate.init();
-
         // Show the right panel
         // _showSection('authenticate');
         wizardPanel.dataset.step = 2;
@@ -32,8 +32,6 @@
         wizardLogin.classList.add('show');
         return;
       }
-
-      Tutorial.init();
     }
   };
 
