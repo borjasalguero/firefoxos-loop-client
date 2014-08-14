@@ -1,60 +1,39 @@
 (function(exports) {
   'use strict';
 
+  var wizardPanel, wizardLogin;
+
   function _showSection(section) {
     if (!section || !section.length || section.length === 0) {
       return;
     }
-    var selector = '';
-    switch(section) {
-      case 'gum':
-        selector = '#wizard-gum-section';
-        break;
-      case 'tutorial':
-        selector = '#wizard-tutorial-section';
-        break;
-      case 'authenticate':
-        selector = '#wizard-authenticate-section';
-        break;
-    }
 
-    var currentScreen = document.querySelector('.wizard-section.current');
-    if (currentScreen) {
-      currentScreen.classList.remove('current');
-    }
-    var nextScreen = document.querySelector(selector);
+    var nextScreen = document.querySelector('#wizard-tutorial-section');
     nextScreen.classList.add('current');
   }
 
   var Wizard = {
     init: function w_init(isFirstUse) {
-      // Show the section
+
       document.body.dataset.layout = 'wizard';
 
-      function showAuthenticate() {
+      wizardPanel = document.getElementById('wizard-panel');
+      wizardLogin = document.getElementById('wizard-login');
+
+      // If  we have alreday seen the FTU we will go to step 2
+      if (!isFirstUse) {
         // If tutorial is done, let's authenticate!
         Authenticate.init();
 
         // Show the right panel
-        _showSection('authenticate');
-      }
-
-      if (!isFirstUse) {
-        showAuthenticate();
+        // _showSection('authenticate');
+        wizardPanel.dataset.step = 2;
+        wizardPanel.classList.add('login');
+        wizardLogin.classList.add('show');
         return;
       }
 
-      // Init tutorial
-      Tutorial.init(function onTutorialCompleted() {
-        // Init GUM Section after the Tutorial
-        Gum.init(function onGumCompleted() {
-          // If tutorial & gUM are done, let's authenticate!
-          showAuthenticate();
-        });
-        _showSection('gum');
-      });
-      // Show Tutorial Section
-      _showSection('tutorial');
+      Tutorial.init();
     }
   };
 
