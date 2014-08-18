@@ -236,6 +236,7 @@
 
     logout: function() {
       AccountHelper.logout();
+      CallScreenManager.close();
     }
   };
 
