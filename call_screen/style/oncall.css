@@ -232,7 +232,8 @@ h1, h2, h3 {
   opacity: 1;
   z-index: 10;
   font-weight: 300;
-  mask: url("images/big_mask.svg#logo_mask");
+  border-radius: 7.5rem;
+  /*mask: url("images/big_mask.svg#logo_mask");*/
  }
 
 .remote-bubble-shadow {
@@ -262,17 +263,19 @@ h1, h2, h3 {
 .local-bubble {
   height: 8rem !important;
   width: 8rem !important;
+  border-radius: 4rem;
 
   position: absolute !important;
   bottom: 2rem !important;
   left: calc(50% - 4rem) !important;
   z-index: 10;
+  overflow: hidden;
   
-  mask: url("images/small_mask.svg#logo_mask") !important;
+  /*mask: url("images/small_mask.svg#logo_mask") !important;*/
 }
 
 .local-bubble-shadow {
-  height: 8rem;
+ /* height: 8rem;
   width: 8rem;
 
   position: absolute;
@@ -282,7 +285,7 @@ h1, h2, h3 {
   background-image: url(images/small_shadow@1x.png);
   background-size: 8rem 8rem;
   background-repeat: no-repeat;
-  z-index: 5;
+  z-index: 5;*/
 }
 
 #local-video {
@@ -587,8 +590,8 @@ body[data-feedback='true'] #feedback {
 #local-video .OT_video-container{
   display: block !important;
   position: relative !important;
-  width: 120% !important;
-  height: 120% !important;
+  /*width: 120% !important;
+  height: 120% !important;*/
   margin-top: -10%;
   z-index: 10;
 }
@@ -627,7 +630,7 @@ body[data-feedback='true'] #feedback {
 
 #fullscreen-mask {
   z-index: 5;
-  background-image: url(images/gradient.png);
+  /*background-image: url(images/gradient.png);*/
   background-size: auto 100%;
   top: 0;
   left: 0;
@@ -639,16 +642,16 @@ body[data-feedback='true'] #feedback {
   display: block !important;
   background: #424242 !important;
   position: relative !important;
-  width: 100% !important;
-  height: 100% !important;
+  width: 10rem !important;
+  height: 10rem !important;
   left: 0 !important;
 }
 
 #fullscreen-video .OT_video-container video{
   display: block !important;
   position: absolute !important;
-  height: 100% !important;
-  width: auto !important;
+  /*height: 10rem !important;
+  width: auto !important;*/
   left: 0 !important;
 }
 
