@@ -237,7 +237,7 @@ h1, h2, h3 {
  }
 
 .remote-bubble-shadow {
-  position: absolute;
+  /*position: absolute;
   top: 8rem;
   left: calc(50% - 7.5rem);
   width: 15rem;
@@ -245,7 +245,7 @@ h1, h2, h3 {
   background-image: url(images/big_shadow@1x.png);
   background-size: 15rem 15rem;
   background-repeat: no-repeat;
-  z-index: 5;
+  z-index: 5;*/
 }
 
 .remote-bubble > div {
@@ -625,7 +625,7 @@ body[data-feedback='true'] #feedback {
   background-size: auto 100%;
   background-position: 50%;
   background-repeat: no-repeat;
-  background-blend-mode: luminosity;
+  /*background-blend-mode: luminosity;*/
 }
 
 #fullscreen-mask {
