@@ -8,6 +8,8 @@
   var _isSpeakerEnabled = true;
   var _isMicEnabled = true;
 
+  var _callStatus;
+
   var _feedbackClose;
 
   var _; // l10n
@@ -269,10 +271,16 @@
     isStatusBarShown: function() {
       return document.body.classList.contains('status-bar');
     },
-    setCallStatus: function(state) {
+    setCallStatus: function(state, reason) {
       if (!_callStatusInfo) {
         _callStatusInfo = document.getElementById('call-status-info');
       }
+
+      if (_callStatus &&
+         ((_callStatus === 'ended') || (_callStatus === state))) {
+        return;
+      }
+      _callStatus = state;
 
       _perfDebug && PerfLog.log(_perfBranch, 'CallScreenUI.setCallStatus ' + state);
 
@@ -319,7 +327,7 @@
           _callStatusInfo.textContent = _('unavailable');
           break;
         case 'ended':
-          _callStatusInfo.textContent = _('ended');
+          _callStatusInfo.textContent = reason ? _(reason) : _('ended');
           document.body.dataset.callStatus = 'ended';
           break;
       }
@@ -453,7 +461,18 @@
     },
     notifyCallEnded: function(error) {
       TonePlayerHelper.stop();
-      CallScreenUI.setCallStatus('ended');
+      if (error && (error.reason)) {
+        switch(error.reason) {
+          case 'gum':
+            CallScreenUI.setCallStatus('ended', 'cameraPermission');
+            break;
+          default:
+            CallScreenUI.setCallStatus('ended');
+            break;
+        }
+      } else {
+        CallScreenUI.setCallStatus('ended');
+      }
       CallManager.terminate();
       TonePlayerHelper.playEnded(_isSpeakerEnabled).then(
         function onplaybackcompleted() {

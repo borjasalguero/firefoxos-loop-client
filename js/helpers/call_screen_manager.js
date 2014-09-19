@@ -219,9 +219,6 @@
                   if (callscreenParams.error && callscreenParams.error.reason) {
                     switch (callscreenParams.error.reason) {
                       case 'gum':
-                        // If there is any error, as gUM permission, let's show
-                        // to the user asap.
-                        Controller.showError(callscreenParams.error.reason);
                         _closeAttentionScreen();
                         break;
                       case 'unavailable':
