@@ -1,3 +1,14 @@
+#room-connected-panel {
+  box-sizing: border-box;
+  padding: 1rem;
+  z-index: 200;
+  transform: translateY(100%);
+}
+
+#room-connected-panel.show {
+  transform: translateY(0);
+}
+
 .rooms {
   box-sizing: border-box;
   padding: 1rem;

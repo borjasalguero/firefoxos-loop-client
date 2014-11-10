@@ -26,7 +26,9 @@
     },
     // Get info from a room given a token
     get: function(token) {
-
+      return new Promise(function(resolve, reject) {
+        ClientRequestHelper.getRoom(token, resolve, reject);
+      });
     },
     // Delete a room given a token
     delete: function(token) {
@@ -35,8 +37,10 @@
       });
     },
     // Join a room given a token
-    join: function(token) {
-      
+    join: function(token, params) {
+      return new Promise(function(resolve, reject) {
+        ClientRequestHelper.joinRoom(token, params, resolve, reject);
+      });
     },
     // Refresh my status in order to keep me connected to a room.
     // This must be done periodically
@@ -44,8 +48,10 @@
 
     },
     // Leave a room and indicates the reason
-    leave: function(token, reason) {
-
+    leave: function(token) {
+      return new Promise(function(resolve, reject) {
+        ClientRequestHelper.leaveRoom(token, resolve, reject);
+      });
     }
   };
 

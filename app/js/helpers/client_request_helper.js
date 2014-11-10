@@ -186,10 +186,6 @@
 
     createRoom: function createRoom(params, onsuccess, onerror) {
       var url = SERVER_URL + '/rooms';
-      console.log('-------------------------');
-      console.log('URL to call ' + url);
-      console.log('Params ' + JSON.stringify(params));
-      console.log('-------------------------');
       _request({
         method: 'POST',
         url: url,
@@ -206,11 +202,42 @@
       }, onsuccess, onerror);
     },
 
+    getRoom: function deleteRoom(token, onsuccess, onerror) {
+      _request({
+        method: 'GET',
+        url: SERVER_URL + '/rooms/' + token,
+        credentials: _hawkCredentials
+      }, onsuccess, onerror);
+    },
+
+    joinRoom: function deleteRoom(token, params, onsuccess, onerror) {
+      var url = SERVER_URL + '/rooms/' + token;
+      // Add the action
+      params.action = 'join';
+      _request({
+        method: 'POST',
+        url: SERVER_URL + '/rooms/' + token,
+        body: params,
+        credentials: _hawkCredentials
+      }, onsuccess, onerror);
+    },
+
+    leaveRoom: function deleteRoom(token, onsuccess, onerror) {
+      var url = SERVER_URL + '/rooms/' + token;
+      // Add the action
+      var params = {
+        action: 'leave'
+      };
+      _request({
+        method: 'POST',
+        url: SERVER_URL + '/rooms/' + token,
+        body: params,
+        credentials: _hawkCredentials
+      }, onsuccess, onerror);
+    },
+
     getRooms: function getRooms(onsuccess, onerror) {
       var url = SERVER_URL + '/rooms';
-      console.log('-------------------------');
-      console.log('URL to call ' + url);
-      console.log('-------------------------');
       _request({
         method: 'GET',
         url: url,
