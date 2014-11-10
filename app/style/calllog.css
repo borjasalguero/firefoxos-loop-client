@@ -99,6 +99,14 @@ form[role="dialog"][data-type="confirm"] button.icon:before {
   background: url(images/Ico_Contacttoolbar_40x80.png) center 0 no-repeat;
 }
 
+[role="toolbar"] .icon-room {
+  background: url(images/room.png);
+  background-size: 3.4rem;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
 [role="toolbar"] .icon-user:active {
   background-position: center -4rem;
 }

@@ -1,0 +1,36 @@
+.rooms {
+  box-sizing: border-box;
+  padding: 1rem;
+  z-index: 100;
+  transition: all ease .4s;
+  transform: translateY(100%);
+  overflow: auto;
+}
+
+.rooms.panel {
+  background: #f4f4f4;
+}
+
+.rooms.show {
+  transform: translateY(0);
+}
+
+
+.rooms ul {
+  border-top: 1px solid black;
+}
+
+.rooms li * {
+  pointer-events: none;
+}
+
+.rooms li {
+  text-align: center;
+  height: 6rem;
+  padding-top: 1.5rem;
+  border-bottom: 1px solid black;
+}
+
+.rooms li:active {
+  background: #ccc;
+}

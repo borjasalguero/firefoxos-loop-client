@@ -97,7 +97,7 @@
         return;
       }
 
-      if (req.status !== 200 && req.status !== 204 && req.status !== 302) {
+      if (req.status !== 201 && req.status !== 200 && req.status !== 204 && req.status !== 302) {
         _callback(onerror, [req.statusText]);
         return;
       }
@@ -182,6 +182,40 @@
           onsuccess,
           onerror
         );
+    },
+
+    createRoom: function createRoom(params, onsuccess, onerror) {
+      var url = SERVER_URL + '/rooms';
+      console.log('-------------------------');
+      console.log('URL to call ' + url);
+      console.log('Params ' + JSON.stringify(params));
+      console.log('-------------------------');
+      _request({
+        method: 'POST',
+        url: url,
+        body: params,
+        credentials: _hawkCredentials
+      }, onsuccess, onerror);
+    },
+
+    deleteRoom: function deleteRoom(token, onsuccess, onerror) {
+      _request({
+        method: 'DELETE',
+        url: SERVER_URL + '/rooms/' + token,
+        credentials: _hawkCredentials
+      }, onsuccess, onerror);
+    },
+
+    getRooms: function getRooms(onsuccess, onerror) {
+      var url = SERVER_URL + '/rooms';
+      console.log('-------------------------');
+      console.log('URL to call ' + url);
+      console.log('-------------------------');
+      _request({
+        method: 'GET',
+        url: url,
+        credentials: _hawkCredentials
+      }, onsuccess, onerror);
     },
 
     generateCallUrl: function generateCallUrl(callerId, onsuccess, onerror) {

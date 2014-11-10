@@ -130,6 +130,11 @@
       AccountHelper.authenticate(id);
     },
 
+    showRoomPanel: function() {
+      RoomScreen.init();
+      
+    },
+
     pickAndCall: function() {
       var activity = new MozActivity({
         name: 'pick',

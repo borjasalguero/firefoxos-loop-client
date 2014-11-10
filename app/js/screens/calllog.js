@@ -904,6 +904,11 @@
         Settings.show
       );
 
+      document.getElementById('create-room').addEventListener(
+        'click',
+        Controller.showRoomPanel
+      );
+
       document.getElementById('call-from-loop').addEventListener(
         'click',
         Controller.pickAndCall

@@ -289,7 +289,7 @@
       var urlBase = protocol + '//' + host +
             '/call_screen/call.html?' + attentionParams;
       attention = window.open(urlBase, 'call_screen', 'attention');
-
+      
       // Enable handshaking with the Call Screen
       _onAttentionLoaded(
         attention,

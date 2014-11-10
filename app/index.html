@@ -18,6 +18,7 @@
 
     <link rel="stylesheet" type="text/css" href="style/settings.css">
     <link rel="stylesheet" type="text/css" href="style/loading_overlay.css">
+    <link rel="stylesheet" type="text/css" href="style/rooms.css">
     <link rel="stylesheet" type="text/css" href="style/calllog.css">
     <link rel="stylesheet" type="text/css" href="style/main.css">
     <link rel="stylesheet" type="text/css" href="style/transitions.css">
@@ -41,6 +42,7 @@
 
     <script defer src="js/compatibility_checker.js"></script>
 
+    <script defer src="js/helpers/rooms.js"></script>
     <script defer src="js/helpers/contacts_helper.js"></script>
     <script defer src="js/helpers/action_log_db.js"></script>
     <script defer src="js/helpers/audio_competing_helper.js"></script>
@@ -57,6 +59,7 @@
 
     <script defer src="js/controller.js"></script>
 
+    <script defer src="js/screens/rooms.js"></script>
     <script defer src="js/screens/loading_overlay.js"></script>
     <script defer src="js/screens/option_menu.js"></script>
     <script defer src="js/screens/splash_screen.js"></script>
@@ -164,6 +167,14 @@
       </section>
       -->
     </section>
+    <section id="rooms-panel" class="panel rooms skin-comms hide" role="region">
+      <button id="rp-close-room-button"> CLOSE </button>
+      <button id="rp-create-room-button"> CREATE </button>
+      <button id="rp-list-rooms-button"> GET ALL </button>
+      <ul id="rp-list-rooms">
+
+      </ul>
+    </section>
     <section id="calllog-panel" class="panel main vbox skin-comms" role="region">
       <header>
         <menu type="toolbar">
@@ -203,6 +214,7 @@
       </section>
       </button>
       <div role="toolbar">
+        <button id="create-room" class="icon-room"></button>
         <button id="call-from-loop" class="icon-user"></button>
       </div>
     </section>
