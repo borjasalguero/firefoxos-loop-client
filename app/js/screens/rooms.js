@@ -7,7 +7,7 @@
   var randomNames = ['Gato', 'Perro', 'Gorrión', 'León', 'Colibrí', 'Perezoso'];
   var randonColors = ['azul', 'rosa', 'verde', 'rojo', 'amarillo', 'verde'];
 
-  var _session;
+  var _session, _currentToken;
   var _constraints = {
     video: true,
     audio: true
@@ -78,46 +78,10 @@
         });
       }
     );
-
-    
   }
 
-  function _join(element) {
-    element.querySelector('.r-participants').textContent = 1;
-  }
-
-  function _leave(element) {
-    element.querySelector('.r-participants').textContent = 0;
-  }
-
-  function _delete(token) {
-    Rooms.delete(token).then(_render);
-  }
-
-  function _render() {
-    _list.innerHTML = '';
-    return new Promise(function(resolve, reject) {
-      Rooms.getAll().then(
-        function(rooms) {
-          for (var i = rooms.length - 1; i >= 0; i--) {
-            console.log(JSON.stringify(rooms[i]));
-            var li = document.createElement('li');
-            li.innerHTML = '<p>Room: ' + rooms[i].roomName + '(<span class="r-participants">' + rooms[i].participants.length + '</span>)</p><p>' + Utils.getHeaderDate(rooms[i].creationTime*1000) + ' ' + Utils.getFormattedHour(rooms[i].creationTime*1000)+ '</p>';
-            li.dataset.roomToken = rooms[i].roomToken;
-            li.dataset.creationTime = rooms[i].creationTime;
-            _list.appendChild(li);
-          }
-          resolve();
-        },
-        reject
-      );
-    });
-  }
-
-  var RoomScreen = {
-    init: function() {
-
-      if (!_panel) {
+  function _initUI() {
+    if (!_panel) {
         _panel = document.getElementById('rooms-panel');
         _createButton = document.getElementById('rp-create-room-button');
         _closeButton = document.getElementById('rp-close-room-button');
@@ -132,6 +96,8 @@
             _connectedPanel.classList.remove('show');
             _connectedPanel.classList.add('hide');
             _session && _session.disconnect();
+
+            _leave(_currentToken);
             
             document.getElementById('rcp-videos-container').innerHTML = '<div id="rcp-local-video-container"></div>' +
                                         '<div id="rcp-remote-video-container"></div>';
@@ -178,11 +144,7 @@
                 name: 'Leave',
                 method: function(element) {
                   var token = element.dataset.roomToken;
-                  Rooms.leave(token).then(function() {
-                    _leave(element);
-                  }, function(e) {
-                    console.log(e);
-                  });
+                  _leave(token);
                 },
                 params: [e.target]
               },
@@ -190,31 +152,7 @@
                 name: 'Join',
                 method: function(element) {
                   var token = element.dataset.roomToken;
-                  var params = {
-                    displayName: "User from FxOS",
-                    clientMaxSize: 2
-                  };
-                  Rooms.join(token, params).then(function(room) {
-                    _join(element);
-                    var options = new OptionMenu({
-                      type: 'confirm',
-                      section: 'Do you want to connect to the room?',
-                      items: [
-                        {
-                          name: 'Connect',
-                          method: function(element) {
-                            _connect(room);
-                          },
-                          params: [e.target]
-                        },
-                        {
-                          name: 'Cancel'
-                        }
-                      ]
-                    });
-                  }, function(e) {
-                    console.log(e);
-                  });
+                  _join(token);
                 },
                 params: [e.target]
               },
@@ -248,10 +186,88 @@
           }
         );
       }
+  }
 
+  function _updateRoomStatus(token) {
+    // Update the UI
+    var element = document.querySelector('[data-room-token="' + token + '"]');
+    if (!element) {
+      return;
+    }
+    Rooms.get(token).then(function(room) {
+      element.querySelector('.r-participants').textContent = room.participants.length;
+    });
+  }
 
+  function _leave(token) {
+    Rooms.leave(token).then(function() {
+      _updateRoomStatus(token);
+      _currentToken = null;
+    }, function(e) {
+      console.log(e);
+    });
+  }
+
+  function _join(token) {
+    var options = new OptionMenu({
+      type: 'confirm',
+      section: 'Do you want to connect to the room?',
+      items: [
+        {
+          name: 'Connect',
+          method: function() {
+            var params = {
+              displayName: "User from FxOS",
+              clientMaxSize: 2
+            };
+            Rooms.join(token, params).then(function(room) {
+              console.log(JSON.stringify(room));
+              _updateRoomStatus(token);
+              _connect(room);
+              _currentToken = token;
+            }, function(e) {
+              alert('Token is invalid or there are 2 peers connected already');
+            });
+          },
+          params: []
+        },
+        {
+          name: 'Cancel'
+        }
+      ]
+    });
+  }
+
+  
+
+  function _delete(token) {
+    Rooms.delete(token).then(_render);
+  }
+
+  function _render() {
+    _list.innerHTML = '';
+    return new Promise(function(resolve, reject) {
+      Rooms.getAll().then(
+        function(rooms) {
+          for (var i = rooms.length - 1; i >= 0; i--) {
+            console.log(JSON.stringify(rooms[i]));
+            var li = document.createElement('li');
+            li.innerHTML = '<p>Room: ' + rooms[i].roomName + '(<span class="r-participants">' + rooms[i].participants.length + '</span>)</p><p>' + Utils.getHeaderDate(rooms[i].creationTime*1000) + ' ' + Utils.getFormattedHour(rooms[i].creationTime*1000)+ '</p>';
+            li.dataset.roomToken = rooms[i].roomToken;
+            li.dataset.creationTime = rooms[i].creationTime;
+            _list.appendChild(li);
+          }
+          resolve();
+        },
+        reject
+      );
+    });
+  }
+
+  var RoomScreen = {
+    init: function() {
+      _initUI();
       _render().then(RoomScreen.show);
-     
     },
     show: function() {
       _panel.classList.remove('hide');
@@ -260,6 +276,11 @@
     hide: function() {
       _panel.classList.remove('show');
       _panel.classList.add('hide');
+    },
+    join: function(token) {
+      // Join and connect
+      _initUI();
+      _join(token);
     }
 
   };

@@ -71,6 +71,14 @@
         "type": "loop/token"
       },
       "returnValue": true
+    },
+    "join-room": {
+      "href": "index.html",
+      "disposition": "window",
+      "filters": {
+        "type": "token"
+      },
+      "returnValue": true
     }
   },
   "locales": {

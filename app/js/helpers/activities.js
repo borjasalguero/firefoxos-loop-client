@@ -3,6 +3,7 @@
 
   const WEBRTC_CALL = 'webrtc-call';
   const LOOP_CALL = 'loop-call';
+  const JOIN_ROOM = 'join-room';
 
   var _initialized = false;
   var _isLogged = false;
@@ -80,6 +81,13 @@
         }
         Controller.callUrl(activityParams.token, activityParams.video != false);
         Telemetry.recordCallFromUrl();
+        break;
+      case JOIN_ROOM:
+        if (!activityParams.token) {
+          console.error('Activity is not sending required data');
+          return;
+        }
+        Controller.joinRoom(activityParams.token);
         break;
     }
   }

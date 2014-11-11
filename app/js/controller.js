@@ -132,7 +132,10 @@
 
     showRoomPanel: function() {
       RoomScreen.init();
-      
+    },
+
+    joinRoom: function(token) {
+      RoomScreen.join(token);
     },
 
     pickAndCall: function() {
