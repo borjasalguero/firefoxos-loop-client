@@ -181,7 +181,7 @@
           'click',
           function(e) {
             if (e.target.dataset.roomToken) {
-              alert('Room created by ');
+              alert('Room token: ' + e.target.dataset.roomToken);
             }
           }
         );
