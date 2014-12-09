@@ -351,9 +351,12 @@
                   }
                   _abortCall(null);
                   // Get URL to share and show prompt
-                  CallHelper.generateCallUrl(
-                    params.identities[0],
+                  CallHelper.generateCallUrl({
+                      callerId: params.identities[0],
+                      subject: params.subject || ''
+                    },
                     function onCallUrlSuccess(result) {
+                      _closeAttentionScreen();
                       var speaker = params.video && params.video === true;
                       getShareUI().then((ui) => {
                         ui.show(
@@ -361,7 +364,6 @@
                           params.identities,
                           'notAUser',
                           function onShareScreen() {
-                            _closeAttentionScreen();
                             LazyLoader.load('js/helpers/tone_player_helper.js',
                               function onTonePlayerLoaded() {
                                 TonePlayerHelper.init('telephony');
