@@ -16,7 +16,8 @@
   }
 
   function isDiff(remoteRoom, localRoom) {
-    return remoteRoom.roomName !== localRoom.roomName;
+    return (remoteRoom.roomName !== localRoom.roomName) ||
+      (remoteRoom.participants.length !== localRoom.participants.length);
   }
 
   function synchronize() {
