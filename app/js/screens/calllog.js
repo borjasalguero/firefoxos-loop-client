@@ -635,10 +635,11 @@
     if (info) {
       roomElement.dataset.shared = true;
     }
+
     var params = {
       roomToken: rawRoom.roomToken,
       roomName: roomName,
-      info: info || rawRoom.identities[0] || _('dontBeShy'),
+      info: info || rawRoom.identities[0],
       lastActivityTime: Utils.getFormattedHour(lastActivityTime)
     };
 
@@ -1165,18 +1166,6 @@
                         'oncontactchange');
         });
       };
-
-      window.addEventListener('localized', function updateStrings() {
-        // We need to update the Strings which are tied to the
-        // language selected
-        var roomsToUpdate =
-          roomsSection.querySelectorAll('li:not([data-shared])');
-        var textTranslated = _('dontBeShy');
-        for (var i = 0, l = roomsToUpdate.length; i < l; i++) {
-          roomsToUpdate[i].querySelector('.secondary-info').textContent =
-            textTranslated;
-        }
-      });
     },
 
     clean: function() {
